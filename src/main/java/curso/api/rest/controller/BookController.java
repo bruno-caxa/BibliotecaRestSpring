@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import curso.api.rest.exception.business.DeletingBookAlreadyPurchasedException;
 import curso.api.rest.model.Book;
 import curso.api.rest.model.BookCategory;
 import curso.api.rest.repository.BookCategoryRepository;
@@ -39,7 +40,7 @@ public class BookController {
 			bookService.deleteById(id);
 			return ResponseEntity.ok().body("ok");
 		} catch (Exception e) {
-			return ResponseEntity.internalServerError().body(e.getMessage());
+			throw new DeletingBookAlreadyPurchasedException(e.getMessage());
 		}
 	}
 

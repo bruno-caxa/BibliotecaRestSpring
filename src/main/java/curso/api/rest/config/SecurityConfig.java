@@ -50,6 +50,7 @@ public class SecurityConfig {
 		.authorizeRequests()
 		.antMatchers(HttpMethod.DELETE, "/api/books/*").authenticated()
 		.antMatchers(HttpMethod.POST, "/api/books/**").authenticated()
+		.antMatchers(HttpMethod.GET, "/api/booksell/**").authenticated()
 		.antMatchers(HttpMethod.POST, "/api/order/*").authenticated()
 		.antMatchers(HttpMethod.GET, "/api/order/user/**").authenticated()
 	    .anyRequest().permitAll()
