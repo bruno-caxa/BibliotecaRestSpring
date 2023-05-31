@@ -6,10 +6,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import curso.api.rest.dto.FinalizedOrderDto;
 import curso.api.rest.model.BookSell;
 import curso.api.rest.model.Order;
 import curso.api.rest.model.User;
+import curso.api.rest.model.dto.FinalizedOrderDto;
 import curso.api.rest.repository.BookSellRepository;
 import curso.api.rest.repository.OrderRepository;
 import curso.api.rest.repository.UserRepository;

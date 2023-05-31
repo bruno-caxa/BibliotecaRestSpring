@@ -2,12 +2,16 @@ package curso.api.rest.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import curso.api.rest.aws.model.ImageReference;
 
 @Entity
 @Table(name = "tb_book")
@@ -19,7 +23,10 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String image;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    private ImageReference image;
+	private String imageUrl;
     
     @ManyToOne()
     private BookCategory category;
@@ -33,7 +40,7 @@ public class Book implements Serializable {
     	
     }
 
-	public Book(Long id, String title, String image, BookCategory category, String publishingCompany, String author, int totalPages, double unitPrice, String description) {
+	public Book(Long id, String title, ImageReference image, BookCategory category, String publishingCompany, String author, int totalPages, double unitPrice, String description) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -62,12 +69,20 @@ public class Book implements Serializable {
 		this.title = title;
 	}
 
-	public String getImage() {
+	public ImageReference getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(ImageReference image) {
 		this.image = image;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public BookCategory getCategory() {

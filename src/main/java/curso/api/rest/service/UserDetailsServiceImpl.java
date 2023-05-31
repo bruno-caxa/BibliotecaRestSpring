@@ -1,4 +1,4 @@
-package curso.api.rest.config;
+package curso.api.rest.service;
 
 import java.util.Optional;
 
@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import curso.api.rest.model.User;
-import curso.api.rest.service.UserService;
+import curso.api.rest.model.UserDetailsImpl;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {

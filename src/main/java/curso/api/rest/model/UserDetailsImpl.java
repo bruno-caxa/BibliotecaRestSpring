@@ -1,12 +1,10 @@
-package curso.api.rest.config;
+package curso.api.rest.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import curso.api.rest.model.User;
 
 public class UserDetailsImpl implements UserDetails {
 	

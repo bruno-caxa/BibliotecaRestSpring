@@ -3,8 +3,6 @@ package curso.api.rest.exception;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,19 +30,19 @@ public class ExceptionHandlerAdvice {
         this.messageSource = messageSource;
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorDto> handlerMethodArgumentNotValid(MethodArgumentNotValidException exception) {
-        logger.error("Exception {}, Message: {}", exception.getClass().getName(), exception.getMessage());
-        Set<ErrorDto> errors = exception.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(error -> buildError(error.getCode(), error.getDefaultMessage()))
-                .collect(Collectors.toSet());
+    // @ExceptionHandler(MethodArgumentNotValidException.class)
+    // public ResponseEntity<ApiErrorDto> handlerMethodArgumentNotValid(MethodArgumentNotValidException exception) {
+    //     logger.error("Exception {}, Message: {}", exception.getClass().getName(), exception.getMessage());
+    //     Set<ErrorDto> errors = exception.getBindingResult()
+    //             .getFieldErrors()
+    //             .stream()
+    //             .map(error -> buildError(error.getCode(), error.getDefaultMessage()))
+    //             .collect(Collectors.toSet());
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(baseErrorBuilder(HttpStatus.BAD_REQUEST, errors));
-    }
+    //     return ResponseEntity
+    //             .status(HttpStatus.BAD_REQUEST)
+    //             .body(baseErrorBuilder(HttpStatus.BAD_REQUEST, errors));
+    // }
 
     @ExceptionHandler(BaseRuntimeException.class)
     public ResponseEntity<ApiErrorDto> handlerBaseException(Throwable exception) {
@@ -54,8 +51,7 @@ public class ExceptionHandlerAdvice {
         ErrorDto error = buildError(messageException.getExceptionKey(), bindExceptionKeywords(messageException.getMapDetails(),
         																					  messageException.getExceptionKey()));
 
-        Set<ErrorDto> errors = Set.of(error);
-        ApiErrorDto apiErrorDto = baseErrorBuilder(getResponseStatus(exception), errors);
+        ApiErrorDto apiErrorDto = baseErrorBuilder(getResponseStatus(exception), error);
 
         return ResponseEntity
                 .status(getResponseStatus(exception))
@@ -65,7 +61,7 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ApiErrorDto> handlerMethodThrowable(Throwable exception) {
         logger.error("Exception {}, Message: {}", exception.getClass().getName(), exception.getMessage());
-        Set<ErrorDto> errors = Set.of(buildError(UNKNOWN_ERROR_KEY, exception.getMessage()));
+        ErrorDto errors = buildError(UNKNOWN_ERROR_KEY, exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(baseErrorBuilder(HttpStatus.INTERNAL_SERVER_ERROR, errors));
@@ -75,12 +71,12 @@ public class ExceptionHandlerAdvice {
         return new ErrorDto(code, message);
     }
 
-    private ApiErrorDto baseErrorBuilder(HttpStatus httpStatus, Set<ErrorDto> errorList) {
+    private ApiErrorDto baseErrorBuilder(HttpStatus httpStatus, ErrorDto error) {
         return new ApiErrorDto (
                 new Date(),
                 httpStatus.value(),
                 httpStatus.name(),
-                errorList);
+                error);
     }
 
     private String bindExceptionKeywords(Map<String, Object> keywords, String exceptionKey) {

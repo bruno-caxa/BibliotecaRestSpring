@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import curso.api.rest.dto.AuthRequest;
 import curso.api.rest.model.User;
+import curso.api.rest.model.dto.AuthRequest;
 import curso.api.rest.service.JwtService;
 import curso.api.rest.service.UserService;
 
@@ -33,15 +33,14 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/authenticate")
-	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+	public ResponseEntity<User> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-
+			
 		if (authentication.isAuthenticated()) {
 			User user = userService.findByUsername(authRequest.getUsername());
 			String token = jwtService.generateToken(authRequest.getUsername());
 			user.setToken(token);
-			userService.save(user);
-			return token;
+			return ResponseEntity.ok().body(userService.save(user));
 		}
 		throw new UsernameNotFoundException("Invalid user request!");
 	}

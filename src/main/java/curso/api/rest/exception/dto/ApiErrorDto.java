@@ -1,25 +1,24 @@
 package curso.api.rest.exception.dto;
 
 import java.util.Date;
-import java.util.Set;
 
 public class ApiErrorDto {
 
 	private Date timestamp;
 	private Integer status;
 	private String code;
-	private Set<ErrorDto> errors;
+	private ErrorDto error;
 
 	public ApiErrorDto() {
 
 	}
 
-	public ApiErrorDto(Date timestamp, Integer status, String code, Set<ErrorDto> errors) {
+	public ApiErrorDto(Date timestamp, Integer status, String code, ErrorDto error) {
 		super();
 		this.timestamp = timestamp;
 		this.status = status;
 		this.code = code;
-		this.errors = errors;
+		this.error = error;
 	}
 
 	public Date getTimestamp() {
@@ -46,12 +45,12 @@ public class ApiErrorDto {
 		this.code = code;
 	}
 
-	public Set<ErrorDto> getErrors() {
-		return errors;
+	public ErrorDto getError() {
+		return error;
 	}
 
-	public void setErrors(Set<ErrorDto> errors) {
-		this.errors = errors;
+	public void setErrors(ErrorDto error) {
+		this.error = error;
 	}
 
 }

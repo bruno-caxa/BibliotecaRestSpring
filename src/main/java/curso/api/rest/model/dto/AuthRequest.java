@@ -1,4 +1,4 @@
-package curso.api.rest.dto;
+package curso.api.rest.model.dto;
 
 public class AuthRequest {
 

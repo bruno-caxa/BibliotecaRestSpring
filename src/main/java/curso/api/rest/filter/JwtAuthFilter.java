@@ -15,9 +15,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import curso.api.rest.config.UserDetailsServiceImpl;
 import curso.api.rest.exception.business.JwtExpiredException;
 import curso.api.rest.service.JwtService;
+import curso.api.rest.service.UserDetailsServiceImpl;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
