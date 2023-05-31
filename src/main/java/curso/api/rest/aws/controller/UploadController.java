@@ -1,6 +1,7 @@
 package curso.api.rest.aws.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import curso.api.rest.aws.model.UploadImageRequest;
 import curso.api.rest.aws.model.UploadRequestResult;
 import curso.api.rest.aws.service.StorageService;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/upload")
 public class UploadController {

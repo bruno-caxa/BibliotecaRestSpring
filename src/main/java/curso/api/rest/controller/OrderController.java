@@ -3,6 +3,7 @@ package curso.api.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import curso.api.rest.model.Order;
 import curso.api.rest.model.dto.FinalizedOrderDto;
 import curso.api.rest.service.OrderService;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/order")
 public class OrderController {
