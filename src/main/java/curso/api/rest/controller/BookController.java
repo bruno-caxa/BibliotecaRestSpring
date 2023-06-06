@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import curso.api.rest.exception.business.DeletingBookAlreadyPurchasedException;
 import curso.api.rest.model.Book;
 import curso.api.rest.model.BookCategory;
 import curso.api.rest.repository.BookCategoryRepository;
@@ -30,16 +30,13 @@ public class BookController {
 	private BookCategoryRepository bookCategoryRepository;
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		try {
-			bookService.deleteById(id);
-		} catch (Exception e) {
-			throw new DeletingBookAlreadyPurchasedException(e.getMessage());
-		}
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		bookService.deleteById(id);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/categories")
-	public List<BookCategory> findAllCategory() {
+	public List<BookCategory> findAllCategories() {
 		return bookCategoryRepository.findAll();
 	}
 
@@ -65,7 +62,7 @@ public class BookController {
 
 	@PostMapping
 	public ResponseEntity<Book> save(@RequestBody Book book) {
-		return ResponseEntity.ok().body(bookService.save(book));
+		return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(book));
 	}
 
 }

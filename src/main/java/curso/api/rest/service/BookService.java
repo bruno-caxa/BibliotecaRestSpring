@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import curso.api.rest.exception.business.DeletingBookAlreadyPurchasedException;
 import curso.api.rest.model.Book;
 import curso.api.rest.model.BookCategory;
 import curso.api.rest.repository.BookCategoryRepository;
@@ -18,14 +19,18 @@ public class BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
-	
+
 	@Autowired
 	private BookCategoryRepository categoryRepository;
-	
+
 	public void deleteById(Long id) {
-		bookRepository.deleteById(id);
+		try {
+			bookRepository.deleteById(id);
+		} catch (Exception e) {
+			throw new DeletingBookAlreadyPurchasedException(e.getMessage());
+		}
 	}
-	
+
 	public List<Book> findAll() {
 		return bookRepository.findAll();
 	}
@@ -42,11 +47,11 @@ public class BookService {
 	public Page<Book> findByTitle(String title, int page) {
 		return bookRepository.findByTitle(title, pageRequest(page, 3, "title"));
 	}
-	
+
 	public Book findById(Long id) {
 		return bookRepository.findById(id).orElse(new Book());
 	}
-	
+
 	public Book save(Book book) {
 		return bookRepository.save(book);
 	}
